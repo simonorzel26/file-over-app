@@ -39,29 +39,74 @@ pnpm install
 pnpm build
 ```
 
-### Usage
-
-Import `file-over-app` into your project to start utilizing its functionalities:
 
 ```javascript
-import { selectFile, verifyPermission, removeEntry } from 'file-over-app';
+import {
+  selectFile,
+  verifyPermission,
+  removeEntry,
+  openDatabase,
+  saveFileData,
+  getFileData,
+  deleteFileData,
+  removeAllFileData,
+  readFile
+} from 'file-over-app';
+
+// Example: Opening a database
+async function initializeDatabase() {
+  const dbName = 'MyAppDB';
+  const dbVersion = 1; // Specify your database version
+  const db = await openDatabase(dbName, dbVersion);
+  console.log('Database opened:', db);
+}
+
+// Example: Saving file data to the database
+async function saveDataToFile(db, data) {
+  await saveFileData(db, data);
+  console.log('Data saved to file');
+}
+
+// Example: Retrieving file data by ID
+async function fetchDataFromFile(db, id) {
+  const data = await getFileData(db, id);
+  console.log('Data fetched:', data);
+}
+
+// Example: Deleting file data
+async function deleteDataFromFile(db, id) {
+  await deleteFileData(db, id);
+  console.log('Data deleted');
+}
+
+// Example: Clearing all file data
+async function clearAllFileData(db) {
+  await removeAllFileData(db);
+  console.log('All file data cleared');
+}
 
 // Example: Selecting a file
 async function handleFileSelection() {
-    const fileHandle = await selectFile();
-    console.log(fileHandle);
+  const fileHandle = await selectFile();
+  console.log(fileHandle);
 }
 
 // Example: Verifying permission for file operation
 async function handlePermissionVerification(fileHandle) {
-    const hasPermission = await verifyPermission(fileHandle, true);
-    console.log('Permission:', hasPermission);
+  const hasPermission = await verifyPermission(fileHandle, true);
+  console.log('Permission:', hasPermission);
 }
 
 // Example: Removing a file
 async function handleFileRemoval(fileHandle) {
-    await removeEntry(fileHandle);
-    console.log('File removed');
+  await removeEntry(fileHandle);
+  console.log('File removed');
+}
+
+// Example: Reading a file
+async function handleFileReading(fileHandle) {
+  const fileContent = await readFile(fileHandle);
+  console.log('File content:', fileContent);
 }
 ```
 
