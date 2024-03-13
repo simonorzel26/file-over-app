@@ -16,6 +16,7 @@
   ],
   "scripts": {
     "build": "tsup index.ts --format cjs,esm --dts",
+    "start": "pnpm http-server",
     "release": "pnpm run build && changeset publish",
     "lint": "tsc"
   },
@@ -24,7 +25,8 @@
   "devDependencies": {
     "@changesets/cli": "^2.26.0",
     "tsup": "^8.0.1",
-    "typescript": "^5.4.2"
+    "typescript": "^5.4.2",
+    "http-server": "14.1.1"
   },
   "bugs": {
     "url": "https://github.com/simonorzel26/ts-npm-package-boilerplate/issues"

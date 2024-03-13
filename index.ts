@@ -1,2 +1,3 @@
 
-export { selectFile, verifyPermission, removeEntry } from './src/index';
+export { selectFile, verifyPermission, removeEntry, readFile } from './src/fs';
+export { openDatabase, saveFileData, getFileData, deleteFileData, removeAllFileData } from './src/database';

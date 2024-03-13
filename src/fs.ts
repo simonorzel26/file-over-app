@@ -27,3 +27,19 @@ export async function removeEntry(fileHandle: FileSystemHandle): Promise<void> {
       console.error('Failed to remove the file or directory', err);
   }
 }
+
+export async function readFile(fileHandle: FileSystemFileHandle): Promise<string> {
+    try {
+      const file = await fileHandle.getFile();
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result as string);
+        reader.onerror = () => reject(reader.error);
+        reader.readAsText(file); // Read the file as text
+      });
+    } catch (err) {
+      console.error('Failed to read the file', err);
+      throw new Error('Failed to read the file');
+    }
+  }
+  

@@ -8,27 +8,79 @@
     <h1>File Operation Demo</h1>
     <button id="select-file">Select File</button>
     <button id="verify-permission">Verify Permission</button>
-    <!-- Initially hide the remove-entry button -->
     <button id="remove-entry" style="display: none;">Remove Entry</button>
+    <div id="file-list-container"></div>
+
+    <div id="file-content-container"></div>
 
     <script src="./dist/index.js" type="module"></script>
     <script type="module">
-        import { selectFile, verifyPermission, removeEntry } from './dist/index.js';
-
+        import {
+            openDatabase,
+            saveFileData,
+            getFileData,
+            deleteFileData,
+            readFile,
+            removeAllFileData,
+            selectFile,
+            verifyPermission,
+            removeEntry
+        } from './dist/index.js';
+    
+        const dbName = 'fileOperationsDB';
+        const dbVersion = 1;
+        let db;
+    
         const btnSelectFile = document.getElementById('select-file');
         const btnVerifyPermission = document.getElementById('verify-permission');
         const btnRemoveEntry = document.getElementById('remove-entry');
-
+        const fileContentContainer = document.getElementById('file-content-container');
+        const fileListContainer = document.getElementById('file-list-container');
+    
         let selectedFileHandle = null;
+    
+        async function initDB() {
+            db = await openDatabase(dbName, dbVersion);
+            console.log('Database initialized:', db);
+            renderFileList();
+        }
+    
+        async function renderFileList() {
+            const transaction = db.transaction(['files'], 'readonly');
+            const store = transaction.objectStore('files');
+            const request = store.getAll();
+    
+            request.onsuccess = () => {
+                const files = request.result;
+                fileListContainer.innerHTML = ''; 
+                if (files && files.length > 0) {
+                    files.forEach((file) => {
+                        const fileElement = document.createElement('p');
+                        fileElement.textContent = `File Name: ${file.name}, Last Modified: ${file.lastModified}`;
+                        fileListContainer.appendChild(fileElement);
+                    });
+                } else {
+                    fileListContainer.textContent = 'No files stored.';
+                }
+            };
+        }
 
         btnSelectFile.addEventListener('click', async () => {
             selectedFileHandle = await selectFile();
-            console.log('Selected file handle:', selectedFileHandle);
-            // Optionally reset the remove-entry button visibility each time a new file is selected
-            const hasPermission = await verifyPermission(selectedFileHandle, true);
-            btnRemoveEntry.style.display =  hasPermission ? 'block' : 'none';
+            if (selectedFileHandle) {
+                const fileData = { name: selectedFileHandle.name, lastModified: selectedFileHandle.lastModified };
+                await saveFileData(db, fileData);
+                console.log('Selected file handle:', selectedFileHandle);
+                const hasPermission = await verifyPermission(selectedFileHandle, true);
+                btnRemoveEntry.style.display = hasPermission ? 'block' : 'none';
+                renderFileList();
+                const content = await readFile(selectedFileHandle);
+                const fileElement = document.createElement('p');
+                fileElement.textContent = `File Content: ${content}`;
+                fileContentContainer.appendChild(fileElement);
+            }
         });
-
+    
         btnVerifyPermission.addEventListener('click', async () => {
             if (!selectedFileHandle) {
                 console.error('No file selected.');
@@ -36,21 +88,24 @@
             }
             const hasPermission = await verifyPermission(selectedFileHandle, true);
             console.log('Permission granted:', hasPermission);
-            // Show or hide the remove-entry button based on permission
             btnRemoveEntry.style.display = hasPermission ? 'block' : 'none';
         });
-
+    
         btnRemoveEntry.addEventListener('click', async () => {
-            if (!selectedFileHandle) {
-                console.error('No file selected.');
+
+            if (!db) {
+                console.error('Database not initialized.');
                 return;
             }
-            await removeEntry(selectedFileHandle);
-            console.log('Entry removed successfully.');
-            // Optionally hide the remove-entry button after removal
+            await removeAllFileData(db);
+            console.log('All entries removed successfully.');
             btnRemoveEntry.style.display = 'none';
+            renderFileList();
         });
-
+    
+        initDB();
     </script>
+    
+    
 </body>
 </html>
