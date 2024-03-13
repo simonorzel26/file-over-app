@@ -8,7 +8,8 @@
     <h1>File Operation Demo</h1>
     <button id="select-file">Select File</button>
     <button id="verify-permission">Verify Permission</button>
-    <button id="remove-entry">Remove Entry</button>
+    <!-- Initially hide the remove-entry button -->
+    <button id="remove-entry" style="display: none;">Remove Entry</button>
 
     <script src="./dist/index.js" type="module"></script>
     <script type="module">
@@ -23,6 +24,9 @@
         btnSelectFile.addEventListener('click', async () => {
             selectedFileHandle = await selectFile();
             console.log('Selected file handle:', selectedFileHandle);
+            // Optionally reset the remove-entry button visibility each time a new file is selected
+            const hasPermission = await verifyPermission(selectedFileHandle, true);
+            btnRemoveEntry.style.display =  hasPermission ? 'block' : 'none';
         });
 
         btnVerifyPermission.addEventListener('click', async () => {
@@ -31,7 +35,9 @@
                 return;
             }
             const hasPermission = await verifyPermission(selectedFileHandle, true);
-            console.alert('Permission granted:', hasPermission);
+            console.log('Permission granted:', hasPermission);
+            // Show or hide the remove-entry button based on permission
+            btnRemoveEntry.style.display = hasPermission ? 'block' : 'none';
         });
 
         btnRemoveEntry.addEventListener('click', async () => {
@@ -40,8 +46,11 @@
                 return;
             }
             await removeEntry(selectedFileHandle);
-            console.alert('Entry removed successfully.');
+            console.log('Entry removed successfully.');
+            // Optionally hide the remove-entry button after removal
+            btnRemoveEntry.style.display = 'none';
         });
+
     </script>
 </body>
 </html>
