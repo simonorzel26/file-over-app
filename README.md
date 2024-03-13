@@ -40,6 +40,8 @@ pnpm build
 ```
 
 
+### Usage
+
 ```javascript
 import {
   selectFile,
