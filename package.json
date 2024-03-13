@@ -30,5 +30,8 @@
   },
   "bugs": {
     "url": "https://github.com/simonorzel26/file-over-app/issues"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
   }
 }
