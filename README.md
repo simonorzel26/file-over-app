@@ -1,13 +1,15 @@
-# File over App
-
-
 [![GitHub stars](https://img.shields.io/github/stars/simonorzel26/file-over-app.svg)](https://github.com/simonorzel26/file-over-app/stargazers)
 [![GitHub license](https://img.shields.io/github/license/simonorzel26/file-over-app.svg)](https://github.com/simonorzel26/file-over-app/blob/main/LICENSE)
 [![GitHub issues](https://img.shields.io/github/issues/simonorzel26/file-over-app.svg)](https://github.com/simonorzel26/file-over-app/issues)
 [![GitHub pull requests](https://img.shields.io/github/issues-pr/simonorzel26/file-over-app.svg)](https://github.com/simonorzel26/file-over-app/pulls)
 
+<div align="center">
+  <h1>File over App</h1>
 
-![File Over App](https://i.imgur.com/xD5srDY.png)
+  <img src="https://i.imgur.com/xD5srDY.png" alt="File Over App" width="200"/>
+  
+</div>
+
 
 ## Overview
 
