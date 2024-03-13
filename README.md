@@ -1,79 +1,72 @@
+# fileOverApp README
 
+## Overview
 
-# TS NPM Package Boilerplate (2024)
+fileOverApp embodies a philosophy prioritizing enduring digital artifacts over transient application experiences. In a digital era dominated by ephemeral software and fleeting data ownership, fileOverApp stands as a beacon for longevity, readability, and user control. Inspired by the lasting impact of ancient hieroglyphs and the timeless nature of physical artifacts, fileOverApp champions the creation of digital files in formats that are easily accessible, open, and free from the constraints of proprietary systems.
 
-This TypeScript NPM package boilerplate is designed to kickstart the development of TypeScript libraries for Node.js and the browser. It features a modern build setup with TypeScript, leveraging `tsup` for bundling and `@changesets/cli` for version management. The package exports a simple function as an example to demonstrate the setup.
+At its core, fileOverApp leverages the Web API's client-side filesystem capabilities to empower web frontends with direct access to documents from the client's filesystem. This approach envisions a future where private user data resides solely on the user's local system, in formats such as .md and JSON Canvas. These formats ensure durability, interoperability, and user-friendly access, laying the groundwork for a digital legacy that transcends generations.
 
 ## Features
 
-- TypeScript for type safety.
-- Dual package output (CommonJS and ESM) for compatibility.
-- Type definitions for TypeScript projects.
-- Automated build and release scripts.
+- **Client-Side File System Access**: Utilize the modern Web File System API to directly interact with files on the user's local system.
+- **User Control and Ownership**: Give users unparalleled control over their data, enabling them to manage, store, and access their files without reliance on external cloud services.
+- **Support for User-Friendly Formats**: Emphasize the use of .md (Markdown) and JSON Canvas formats, ensuring data is stored in open, easily retrievable formats.
 
-## Prerequisites
+## Getting Started
 
-- Node.js v19.8.1
-- `pnpm` (Follow [pnpm installation guide](https://pnpm.io/installation) if you haven't installed it)
+To integrate fileOverApp into your project, ensure you have a modern web development environment ready. This package is designed for use in web applications capable of leveraging client-side JavaScript.
 
-## Installation
-
-To use this boilerplate for your project, clone the repository and install the dependencies.
+### Installation
 
 ```bash
-git clone https://github.com/simonorzel26/ts-npm-package-boilerplate your-package-name
-cd your-package-name
-pnpm install
+npm install fileOverApp
 ```
 
-## Usage
+### Usage
 
-After installation, you can start using the boilerplate to build your TypeScript library. Here's how to import and use the example function exported by this package:
+Import `fileOverApp` into your project to start utilizing its functionalities:
 
-```typescript
-import { foo } from 'your-package-name';
+```javascript
+import { selectFile, verifyPermission, removeEntry } from 'fileOverApp';
 
-console.log(foo('Hello, world!'));
+// Example: Selecting a file
+async function handleFileSelection() {
+    const fileHandle = await selectFile();
+    console.log(fileHandle);
+}
+
+// Example: Verifying permission for file operation
+async function handlePermissionVerification(fileHandle) {
+    const hasPermission = await verifyPermission(fileHandle, true);
+    console.log('Permission:', hasPermission);
+}
+
+// Example: Removing a file
+async function handleFileRemoval(fileHandle) {
+    await removeEntry(fileHandle);
+    console.log('File removed');
+}
 ```
 
-## Development
+### Current Functionalities
 
-This package includes several scripts to help with development:
+- **File Selection**: Prompt users to select files directly from their local filesystem.
+- **Permission Verification**: Check and request permissions for read or write operations on the selected files.
+- **File Removal**: Allow for the deletion of files with the user's consent.
 
-- `pnpm run build`: Compiles the TypeScript source code and generates both CommonJS and ESM modules along with type definitions.
-- `pnpm run lint`: Runs TypeScript compiler checks without emitting code to ensure type safety.
-- `pnpm run release`: Bundles the package and publishes it to NPM with version management.
+### Current Limitations
 
-### Adding New Functions
+- **User Permissions**: Due to security considerations, web applications must explicitly request access from the user for each file operation, potentially affecting user experience.
+- **Browser Compatibility**: The underlying Web File System API has varying levels of support across browsers, which may limit functionality on unsupported platforms.
 
-To add a new function, create a `.ts` file in the `src` directory. For example:
+## Future Directions
 
-```typescript
-// src/newFunction.ts
-export const newFunction = (): void => {
-  // Implementation here
-};
-```
-
-Then, export it from `index.ts`:
-
-```typescript
-// index.ts
-export * from './newFunction';
-```
+As fileOverApp evolves, we aim to expand its capabilities and improve upon its foundation, guided by the principle that the value of digital files should outlast the applications used to create them. We are committed to enhancing format support, streamlining user interactions, and ensuring that your digital artifacts can be a legacy for future generations.
 
 ## Contributing
 
-Contributions are welcome! Please submit a pull request or create an issue for any features, bug fixes, or improvements.
+We welcome contributions from the community. Whether it's improving the codebase, proposing new features, or reporting bugs, your input is invaluable in making fileOverApp a robust tool for digital preservation. Please visit our GitHub repository at [fileOverApp GitHub](https://github.com/simonorzel26/ts-npm-package-boilerplate) to contribute.
 
 ## License
 
-This project is open-sourced under the MIT License. See the [LICENSE](https://github.com/simonorzel26/ts-npm-package-boilerplate/blob/main/LICENSE) file for more details.
-
-## Author
-
-Simon Orzel
-
----
-
-For more details and documentation, please visit the [project homepage](https://github.com/simonorzel26/ts-npm-package-boilerplate).
+fileOverApp is open source, licensed under the MIT License. We believe in the freedom to use, modify, and distribute software, and we encourage you to join us in this endeavor to make digital data truly durable and user-controlled.
