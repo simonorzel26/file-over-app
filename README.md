@@ -11,9 +11,9 @@
 
 ## Overview
 
-fileOverApp embodies a philosophy prioritizing enduring digital artifacts over transient application experiences. In a digital era dominated by ephemeral software and fleeting data ownership, fileOverApp stands as a beacon for longevity, readability, and user control. Inspired by the lasting impact of ancient hieroglyphs and the timeless nature of physical artifacts, fileOverApp champions the creation of digital files in formats that are easily accessible, open, and free from the constraints of proprietary systems.
+file-over-app embodies a philosophy prioritizing enduring digital artifacts over transient application experiences. In a digital era dominated by ephemeral software and fleeting data ownership, file-over-app stands as a beacon for longevity, readability, and user control. Inspired by the lasting impact of ancient hieroglyphs and the timeless nature of physical artifacts, file-over-app champions the creation of digital files in formats that are easily accessible, open, and free from the constraints of proprietary systems.
 
-At its core, fileOverApp leverages the Web API's client-side filesystem capabilities to empower web frontends with direct access to documents from the client's filesystem. This approach envisions a future where private user data resides solely on the user's local system, in formats such as .md and JSON Canvas. These formats ensure durability, interoperability, and user-friendly access, laying the groundwork for a digital legacy that transcends generations.
+At its core, file-over-app leverages the Web API's client-side filesystem capabilities to empower web frontends with direct access to documents from the client's filesystem. This approach envisions a future where private user data resides solely on the user's local system, in formats such as .md and JSON Canvas. These formats ensure durability, interoperability, and user-friendly access, laying the groundwork for a digital legacy that transcends generations.
 
 ## Features
 
@@ -23,20 +23,28 @@ At its core, fileOverApp leverages the Web API's client-side filesystem capabili
 
 ## Getting Started
 
-To integrate fileOverApp into your project, ensure you have a modern web development environment ready. This package is designed for use in web applications capable of leveraging client-side JavaScript.
+To integrate file-over-app into your project, ensure you have a modern web development environment ready. This package is designed for use in web applications capable of leveraging client-side JavaScript.
 
-### Installation
+### Installation as npm package
 
 ```bash
-npm install fileOverApp
+pnpm install file-over-app
+```
+
+### Installation locally and build
+
+```bash
+git clone git@github.com:simonorzel26/file-over-app.git
+pnpm install
+pnpm build
 ```
 
 ### Usage
 
-Import `fileOverApp` into your project to start utilizing its functionalities:
+Import `file-over-app` into your project to start utilizing its functionalities:
 
 ```javascript
-import { selectFile, verifyPermission, removeEntry } from 'fileOverApp';
+import { selectFile, verifyPermission, removeEntry } from 'file-over-app';
 
 // Example: Selecting a file
 async function handleFileSelection() {
@@ -70,12 +78,12 @@ async function handleFileRemoval(fileHandle) {
 
 ## Future Directions
 
-As fileOverApp evolves, we aim to expand its capabilities and improve upon its foundation, guided by the principle that the value of digital files should outlast the applications used to create them. We are committed to enhancing format support, streamlining user interactions, and ensuring that your digital artifacts can be a legacy for future generations.
+As file-over-app evolves, we aim to expand its capabilities and improve upon its foundation, guided by the principle that the value of digital files should outlast the applications used to create them. We are committed to enhancing format support, streamlining user interactions, and ensuring that your digital artifacts can be a legacy for future generations.
 
 ## Contributing
 
-We welcome contributions from the community. Whether it's improving the codebase, proposing new features, or reporting bugs, your input is invaluable in making fileOverApp a robust tool for digital preservation. Please visit our GitHub repository at [fileOverApp GitHub](https://github.com/simonorzel26/ts-npm-package-boilerplate) to contribute.
+We welcome contributions from the community. Whether it's improving the codebase, proposing new features, or reporting bugs, your input is invaluable in making file-over-app a robust tool for digital preservation. Please visit our GitHub repository at [file-over-app GitHub](https://github.com/simonorzel26/ts-npm-package-boilerplate) to contribute.
 
 ## License
 
-fileOverApp is open source, licensed under the MIT License. We believe in the freedom to use, modify, and distribute software, and we encourage you to join us in this endeavor to make digital data truly durable and user-controlled.
+file-over-app is open source, licensed under the MIT License. We believe in the freedom to use, modify, and distribute software, and we encourage you to join us in this endeavor to make digital data truly durable and user-controlled.
