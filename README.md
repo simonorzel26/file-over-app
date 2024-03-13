@@ -82,7 +82,7 @@ As file-over-app evolves, we aim to expand its capabilities and improve upon its
 
 ## Contributing
 
-We welcome contributions from the community. Whether it's improving the codebase, proposing new features, or reporting bugs, your input is invaluable in making file-over-app a robust tool for digital preservation. Please visit our GitHub repository at [file-over-app GitHub](https://github.com/simonorzel26/ts-npm-package-boilerplate) to contribute.
+We welcome contributions from the community. Whether it's improving the codebase, proposing new features, or reporting bugs, your input is invaluable in making file-over-app a robust tool for digital preservation. Please visit our GitHub repository at [file-over-app GitHub](https://github.com/simonorzel26/file-over-app) to contribute.
 
 ## License
 
