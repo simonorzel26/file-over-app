@@ -4,7 +4,7 @@
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "type": "module",
-  "description": "File over App package",
+  "description": "file-over-app prioritizes enduring digital artifacts, promoting user control and longevity through accessible, open file formats and client-side filesystem empowerment",
   "version": "0.0.1",
   "repository": {
     "type": "git",
@@ -33,5 +33,6 @@
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
-  }
+  },
+  "github": "https://github.com/simonorzel26/file-over-app"
 }
