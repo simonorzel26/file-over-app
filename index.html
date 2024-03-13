@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Demo of File Operations</title>
+</head>
+<body>
+    <h1>File Operation Demo</h1>
+    <button id="select-file">Select File</button>
+    <button id="verify-permission">Verify Permission</button>
+    <button id="remove-entry">Remove Entry</button>
+
+    <script src="./dist/index.js" type="module"></script>
+    <script type="module">
+        import { selectFile, verifyPermission, removeEntry } from './dist/index.js';
+
+        const btnSelectFile = document.getElementById('select-file');
+        const btnVerifyPermission = document.getElementById('verify-permission');
+        const btnRemoveEntry = document.getElementById('remove-entry');
+
+        let selectedFileHandle = null;
+
+        btnSelectFile.addEventListener('click', async () => {
+            selectedFileHandle = await selectFile();
+            console.log('Selected file handle:', selectedFileHandle);
+        });
+
+        btnVerifyPermission.addEventListener('click', async () => {
+            if (!selectedFileHandle) {
+                console.error('No file selected.');
+                return;
+            }
+            const hasPermission = await verifyPermission(selectedFileHandle, true);
+            console.alert('Permission granted:', hasPermission);
+        });
+
+        btnRemoveEntry.addEventListener('click', async () => {
+            if (!selectedFileHandle) {
+                console.error('No file selected.');
+                return;
+            }
+            await removeEntry(selectedFileHandle);
+            console.alert('Entry removed successfully.');
+        });
+    </script>
+</body>
+</html>

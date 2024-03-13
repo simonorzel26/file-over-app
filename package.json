@@ -23,8 +23,8 @@
   "license": "MIT",
   "devDependencies": {
     "@changesets/cli": "^2.26.0",
-    "typescript": "^5.3.3",
-    "tsup": "^8.0.1"
+    "tsup": "^8.0.1",
+    "typescript": "^5.4.2"
   },
   "bugs": {
     "url": "https://github.com/simonorzel26/ts-npm-package-boilerplate/issues"

@@ -1,3 +1,2 @@
-export {
-  foo
-} from "./src/foo";
+
+export { selectFile, verifyPermission, removeEntry } from './src/index';
