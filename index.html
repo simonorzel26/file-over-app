@@ -2,110 +2,140 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Demo of File Operations</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        h1 {
+            color: #333;
+        }
+        button {
+            margin: 5px;
+            padding: 10px 15px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #file-list-container, #file-content-container {
+            background-color: #fff;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+    </style>
 </head>
 <body>
     <h1>File Operation Demo</h1>
     <button id="select-file">Select File</button>
     <button id="verify-permission">Verify Permission</button>
-    <button id="remove-entry" style="display: none;">Remove Entry</button>
+    <button id="remove-entry" style="display: none;">Remove Entries</button>
     <div id="file-list-container"></div>
-
     <div id="file-content-container"></div>
 
     <script src="./dist/index.js" type="module"></script>
     <script type="module">
-        import {
-            openDatabase,
-            saveFileData,
-            getFileData,
-            deleteFileData,
-            readFile,
-            removeAllFileData,
-            selectFile,
-            verifyPermission,
-            removeEntry
-        } from './dist/index.js';
-    
-        const dbName = 'fileOperationsDB';
-        const dbVersion = 1;
-        let db;
-    
-        const btnSelectFile = document.getElementById('select-file');
-        const btnVerifyPermission = document.getElementById('verify-permission');
-        const btnRemoveEntry = document.getElementById('remove-entry');
-        const fileContentContainer = document.getElementById('file-content-container');
-        const fileListContainer = document.getElementById('file-list-container');
-    
-        let selectedFileHandle = null;
-    
-        async function initDB() {
-            db = await openDatabase(dbName, dbVersion);
-            console.log('Database initialized:', db);
-            renderFileList();
-        }
-    
-        async function renderFileList() {
-            const transaction = db.transaction(['files'], 'readonly');
-            const store = transaction.objectStore('files');
-            const request = store.getAll();
-    
-            request.onsuccess = () => {
-                const files = request.result;
-                fileListContainer.innerHTML = ''; 
-                if (files && files.length > 0) {
-                    files.forEach((file) => {
-                        const fileElement = document.createElement('p');
-                        fileElement.textContent = `File Name: ${file.name}, Last Modified: ${file.lastModified}`;
-                        fileListContainer.appendChild(fileElement);
-                    });
-                } else {
-                    fileListContainer.textContent = 'No files stored.';
-                }
-            };
-        }
+        (async () => {
+            const {
+                openDatabase,
+                saveFileData,
+                getFileData,
+                deleteFileData,
+                readFile,
+                removeAllFileData,
+                selectFile,
+                verifyPermission,
+                removeEntry
+            } = await import('./dist/index.js');
 
-        btnSelectFile.addEventListener('click', async () => {
-            selectedFileHandle = await selectFile();
-            if (selectedFileHandle) {
-                const fileData = { name: selectedFileHandle.name, lastModified: selectedFileHandle.lastModified };
-                await saveFileData(db, fileData);
-                console.log('Selected file handle:', selectedFileHandle);
-                const hasPermission = await verifyPermission(selectedFileHandle, true);
-                btnRemoveEntry.style.display = hasPermission ? 'block' : 'none';
+            const dbName = 'fileOperationsDB';
+            const dbVersion = 1;
+            let db;
+
+            const btnSelectFile = document.getElementById('select-file');
+            const btnVerifyPermission = document.getElementById('verify-permission');
+            const btnRemoveEntry = document.getElementById('remove-entry');
+            const fileContentContainer = document.getElementById('file-content-container');
+            const fileListContainer = document.getElementById('file-list-container');
+
+            let selectedFileHandle = null;
+
+            async function initDB() {
+                db = await openDatabase(dbName, dbVersion);
+                console.log('Database initialized:', db);
                 renderFileList();
-                const content = await readFile(selectedFileHandle);
-                const fileElement = document.createElement('p');
-                fileElement.textContent = `File Content: ${content}`;
-                fileContentContainer.appendChild(fileElement);
             }
-        });
-    
-        btnVerifyPermission.addEventListener('click', async () => {
-            if (!selectedFileHandle) {
-                console.error('No file selected.');
-                return;
-            }
-            const hasPermission = await verifyPermission(selectedFileHandle, true);
-            console.log('Permission granted:', hasPermission);
-            btnRemoveEntry.style.display = hasPermission ? 'block' : 'none';
-        });
-    
-        btnRemoveEntry.addEventListener('click', async () => {
 
-            if (!db) {
-                console.error('Database not initialized.');
-                return;
+            async function renderFileList() {
+                const transaction = db.transaction(['files'], 'readonly');
+                const store = transaction.objectStore('files');
+                const request = store.getAll();
+
+                request.onsuccess = () => {
+                    const files = request.result;
+                    fileListContainer.innerHTML = '';
+                    if (files && files.length > 0) {
+                        files.forEach((file) => {
+                            const fileElement = document.createElement('p');
+                            fileElement.textContent = `File Name: ${file.name}, Last Modified: ${new Date(file.lastModified).toLocaleString()}`;
+                            fileListContainer.appendChild(fileElement);
+                        });
+                    } else {
+                        fileListContainer.textContent = 'No files stored.';
+                    }
+                };
             }
-            await removeAllFileData(db);
-            console.log('All entries removed successfully.');
-            btnRemoveEntry.style.display = 'none';
-            renderFileList();
-        });
-    
-        initDB();
+
+            btnSelectFile.addEventListener('click', handleSelectFile);
+            btnVerifyPermission.addEventListener('click', handleVerifyPermission);
+            btnRemoveEntry.addEventListener('click', handleRemoveEntry);
+
+            async function handleSelectFile() {
+                selectedFileHandle = await selectFile();
+                if (selectedFileHandle) {
+                    const fileData = { name: selectedFileHandle.name, lastModified: selectedFileHandle.lastModified };
+                    await saveFileData(db, fileData);
+                    console.log('Selected file handle:', selectedFileHandle);
+                    const hasPermission = await verifyPermission(selectedFileHandle, true);
+                    btnRemoveEntry.style.display = hasPermission ? 'block' : 'none';
+                    renderFileList();
+                    const content = await readFile(selectedFileHandle);
+                    fileContentContainer.innerHTML = `<p>File Content: ${content}</p>`;
+                }
+            }
+
+            async function handleVerifyPermission() {
+                if (!selectedFileHandle) {
+                    console.error('No file selected.');
+                    return;
+                }
+                const hasPermission = await verifyPermission(selectedFileHandle, true);
+                alert('Permission granted:', selectedFileHandle);
+                btnRemoveEntry.style.display = hasPermission ? 'block' : 'none';
+            }
+
+            async function handleRemoveEntry() {
+                if (!db) {
+                    console.error('Database not initialized.');
+                    return;
+                }
+                await removeAllFileData(db);
+                console.log('All entries removed successfully.');
+                btnRemoveEntry.style.display = 'none';
+                renderFileList();
+            }
+
+            await initDB();
+        })();
     </script>
-    
-    
 </body>
 </html>
